@@ -1,6 +1,6 @@
 @echo off
 echo ========================================
-echo Starting Qdrant Vector Database
+echo Starting Qdrant Vector Database (Simple)
 echo ========================================
 
 REM Check if Qdrant is installed
@@ -15,10 +15,16 @@ if %ERRORLEVEL% NEQ 0 (
 
 echo Starting Qdrant on http://localhost:6333...
 echo Press Ctrl+C to stop Qdrant
+echo.
 
 REM Create data directory if it doesn't exist
 if not exist "%USERPROFILE%\.wrenai\qdrant_data" mkdir "%USERPROFILE%\.wrenai\qdrant_data"
 
-REM Start Qdrant with simple command (Qdrant 1.15.5+ uses different syntax)
-echo Starting Qdrant with default settings...
+REM Set environment variable for Qdrant data path
+set QDRANT__STORAGE__STORAGE_PATH=%USERPROFILE%\.wrenai\qdrant_data
+set QDRANT__SERVICE__HTTP_PORT=6333
+set QDRANT__SERVICE__GRPC_PORT=6334
+
+REM Start Qdrant with environment variables (works with Qdrant 1.15.5+)
+echo Using data directory: %USERPROFILE%\.wrenai\qdrant_data
 qdrant

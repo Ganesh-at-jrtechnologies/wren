@@ -19,10 +19,12 @@ if %ERRORLEVEL% NEQ 0 (
     )
 )
 
-REM Check if virtual environment exists
-if not exist ".venv" (
-    echo Creating virtual environment and installing dependencies...
-    poetry install
+REM Check if virtual environment exists and install dependencies
+echo Installing dependencies from lock file
+poetry install --no-dev
+if %ERRORLEVEL% NEQ 0 (
+    echo Failed to install dependencies. Trying without lock file...
+    poetry install --no-dev --no-cache
     if %ERRORLEVEL% NEQ 0 (
         echo Failed to install dependencies. Check your Python installation.
         pause

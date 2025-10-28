@@ -30,6 +30,9 @@ if not exist "node_modules" (
             exit /b 1
         )
     )
+) else (
+    echo Dependencies already installed. Checking for security updates...
+    npm audit fix --force
 )
 
 REM Check if the app is built
@@ -43,7 +46,8 @@ if not exist ".next" (
     )
 )
 
-REM Set environment variables for the UI
+REM Set environment variables for the UI (Windows format)
+set TZ=UTC
 set DB_TYPE=sqlite
 set SQLITE_FILE=%USERPROFILE%\.wrenai\data\db.sqlite3
 set WREN_AI_ENDPOINT=http://localhost:5555
